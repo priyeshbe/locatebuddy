@@ -2,13 +2,13 @@ package com.beohar.priyesh.priyeshsmita;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,62 +16,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-/*
+import static com.beohar.priyesh.priyeshsmita.R.id.map;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.widget.Toast;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-public class MapsActivity extends Activity {
-    //our database reference object
-    DatabaseReference databaseArtists;
-    final FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        //getting the reference of artists node
-        databaseArtists = FirebaseDatabase.getInstance().getReference("location").child("smita");
-    }
-
-    @Override
-    protected void onStart() {
-
-        super.onStart();
-        //attaching value event listener
-        databaseArtists.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    BuddyLocation bloc = dataSnapshot.getValue(BuddyLocation.class);
-
-                    Toast.makeText(getApplicationContext(), bloc.getLat(), Toast.LENGTH_LONG).show();
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-}
-*/
-
-
+//https://developers.google.com/maps/documentation/javascript/firebase
+//https://developers.google.com/maps/documentation/android-api/marker
+//https://developers.google.com/maps/documentation/android-api/views
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     DatabaseReference databaseArtists;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private Marker mSydney;
 
     private GoogleMap mMap;
+    public static String live_lat;
+    public static String live_lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +37,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         databaseArtists = FirebaseDatabase.getInstance().getReference("location").child("smita");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(map);
         mapFragment.getMapAsync(this);
     }
 
@@ -100,9 +57,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+       LatLng sydney = new LatLng(22,22);
+
+        mSydney = mMap.addMarker(new MarkerOptions().position(sydney).title("Smita"));
+       // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
     @Override
@@ -115,9 +73,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 BuddyLocation bloc = dataSnapshot.getValue(BuddyLocation.class);
+                live_lat = bloc.getLat();
+                live_lng = bloc.getLng();
 
-                Toast.makeText(getApplicationContext(), bloc.getLat(), Toast.LENGTH_LONG).show();
+                Float f1 = Float.parseFloat(live_lat);
+                Float f2 = Float.parseFloat(live_lng);
+                Float zoomLevel = 16.0f; //This goes up to 21
 
+                // Add a marker in Sydney and move the camera
+                LatLng sydney = new LatLng(f1,f2);
+
+
+                //mMap.addMarker(new MarkerOptions().position(sydney).title("Smita"));
+
+                //MainActivity.this.mMarker.setPosition(location);
+
+                mSydney.setPosition(sydney);
+
+
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, zoomLevel));
+
+
+                //Toast.makeText(getApplicationContext(), bloc.getLat(), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -125,5 +102,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
+
     }
 }
