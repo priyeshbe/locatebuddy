@@ -3,18 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="100dp" android:gravity="center">    <Button
         android:id="@+id/buttonStart"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:text="START Location" />
 
     <Button
         android:id="@+id/buttonStop"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:elevation="0dp"
+        android:layout_marginTop="70dp"
         android:text="Stop Location" />
+
+    <Button
+        android:id="@+id/buttonBuddy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
+        android:text="Smita Location" />
+</RelativeLayout>
 </LinearLayout>
