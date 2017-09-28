@@ -8,6 +8,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -16,11 +18,32 @@ import com.google.firebase.database.FirebaseDatabase;
  * Created by priyesh on 28/9/17.
  */
 
+/*
+ private View.OnClickListener onLoca = new View.OnClickListener() {
+        public void onClick(View v) {
+            buttonStart.setEnabled(false);
+            buttonStop.setEnabled(true);
 
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 10, this);
+        }
+    };
+
+    private View.OnClickListener offLoca = new View.OnClickListener() {
+        public void onClick(View v) {
+            buttonStart.setEnabled(true);
+            buttonStop.setEnabled(false);
+
+            locationManager.removeUpdates(this);
+            locationManager = null;
+        }
+    };
+*/
 
 public class MainActivity extends Activity implements LocationListener {
 
     private LocationManager locationManager;
+    Button buttonStart;
+    Button buttonStop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +52,26 @@ public class MainActivity extends Activity implements LocationListener {
 
         /********** get Gps location service LocationManager object ***********/
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        buttonStart = (Button) findViewById(R.id.buttonStart);
+        buttonStop = (Button) findViewById(R.id.buttonStop);
+
+        // set button on click listeners
+        buttonStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonStart.setEnabled(false);
+                buttonStop.setEnabled(true);
+                Toast.makeText(getApplicationContext(), "Location on", Toast.LENGTH_LONG).show();
+            }
+        });
+        buttonStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonStart.setEnabled(true);
+                buttonStop.setEnabled(false);
+                Toast.makeText(getApplicationContext(), "Location off", Toast.LENGTH_LONG).show();
+            }
+        });
 
 		/*
           Parameters :
@@ -48,10 +91,12 @@ public class MainActivity extends Activity implements LocationListener {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+
+/*
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 3000,   // 3 sec
                 10, this);
-
+*/
         /********* After registration onLocationChanged method called periodically after each 3 sec ***********/
     }
 
