@@ -21,6 +21,7 @@ import static com.beohar.priyesh.priyeshsmita.R.id.map;
 //https://developers.google.com/maps/documentation/javascript/firebase
 //https://developers.google.com/maps/documentation/android-api/marker
 //https://developers.google.com/maps/documentation/android-api/views
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     DatabaseReference databaseArtists;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
