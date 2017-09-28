@@ -2,6 +2,7 @@ package com.beohar.priyesh.priyeshsmita;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -44,6 +45,7 @@ public class MainActivity extends Activity implements LocationListener {
     private LocationManager locationManager;
     Button buttonStart;
     Button buttonStop;
+    Button buttonBuddy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class MainActivity extends Activity implements LocationListener {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         buttonStart = (Button) findViewById(R.id.buttonStart);
         buttonStop = (Button) findViewById(R.id.buttonStop);
+        buttonBuddy = (Button) findViewById(R.id.buttonBuddy);
 
         // set button on click listeners
         buttonStart.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +73,14 @@ public class MainActivity extends Activity implements LocationListener {
                 buttonStart.setEnabled(true);
                 buttonStop.setEnabled(false);
                 Toast.makeText(getApplicationContext(), "Location off", Toast.LENGTH_LONG).show();
+            }
+        });
+        buttonBuddy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent("com.beohar.priyesh.priyeshsmita.MapsActivity");
+                startActivity(intent);
+
             }
         });
 
