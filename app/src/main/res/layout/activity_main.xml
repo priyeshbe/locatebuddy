@@ -22,6 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="140dp"
-        android:text="Smita Location" />
+        android:text="Buddy Location" />
 </RelativeLayout>
 </LinearLayout>

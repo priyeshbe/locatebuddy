@@ -103,11 +103,11 @@ public class MainActivity extends Activity implements LocationListener {
             return;
         }
 
-/*
+
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 3000,   // 3 sec
                 10, this);
-*/
+
         /********* After registration onLocationChanged method called periodically after each 3 sec ***********/
     }
 
