@@ -43,6 +43,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends Activity implements LocationListener {
 
     private LocationManager locationManager;
+
     Button buttonStart;
     Button buttonStop;
     Button buttonBuddy;
@@ -64,7 +65,15 @@ public class MainActivity extends Activity implements LocationListener {
             public void onClick(View v) {
                 buttonStart.setEnabled(false);
                 buttonStop.setEnabled(true);
-                Toast.makeText(getApplicationContext(), "Location on", Toast.LENGTH_LONG).show();
+                try {
+                    MainActivity.this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                            3000,   // 3 sec
+                            10, MainActivity.this);
+                    Toast.makeText(getApplicationContext(), "Location on", Toast.LENGTH_LONG).show();
+                } catch (SecurityException e) {
+                    Toast.makeText(getApplicationContext(), "PERMISSION_NOT_GRANTED", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
         buttonStop.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +81,15 @@ public class MainActivity extends Activity implements LocationListener {
             public void onClick(View v) {
                 buttonStart.setEnabled(true);
                 buttonStop.setEnabled(false);
-                Toast.makeText(getApplicationContext(), "Location off", Toast.LENGTH_LONG).show();
+
+                try {
+                    MainActivity.this.locationManager.removeUpdates(MainActivity.this);
+                    MainActivity.this.locationManager = null;
+                    Toast.makeText(getApplicationContext(), "Location off", Toast.LENGTH_LONG).show();
+                } catch (SecurityException e) {
+                    Toast.makeText(getApplicationContext(), "PERMISSION_NOT_GRANTED", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
         buttonBuddy.setOnClickListener(new View.OnClickListener() {
@@ -103,11 +120,11 @@ public class MainActivity extends Activity implements LocationListener {
             return;
         }
 
-
+/*
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 3000,   // 3 sec
                 10, this);
-
+*/
         /********* After registration onLocationChanged method called periodically after each 3 sec ***********/
     }
 
